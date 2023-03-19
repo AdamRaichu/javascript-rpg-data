@@ -1,5 +1,7 @@
-import { Player } from "./codex/entity/Player.js";
-import { RockMonster } from "./codex/entity/mobs/RockMonster.js";
+import * as codex from "./codex/index.js";
 
-var player = new Player("AdamRaichu");
-var monster = new RockMonster();
+var player = new codex.Player("AdamRaichu");
+var monster = new codex.RockMonster();
+
+window.player = player;
+window.monster = monster;
