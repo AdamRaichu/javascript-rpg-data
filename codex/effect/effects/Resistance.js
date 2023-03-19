@@ -1,4 +1,4 @@
-import Effect from "../Effect.js";
+import { Effect } from "../Effect.js";
 
 export class Resistance1 extends Effect {
   constructor() {
