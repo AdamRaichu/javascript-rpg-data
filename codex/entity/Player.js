@@ -1,7 +1,7 @@
 import Entity from "./Entity.js";
 
-class Player extends Entity {
-  constructor(name, maxHp, baseDamage) {
-    super(name, maxHp, baseDamage);
+export class Player extends Entity {
+  constructor(name) {
+    super(name, 100, 5, { combat: 2, idle: 10, interval: 60000 });
   }
 }
