@@ -1,2 +1,3 @@
-# javascript-rpg-data
+# JavaScript RPG Data
+
 Framework for an RPG to be represented in JavaScript
