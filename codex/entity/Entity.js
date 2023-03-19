@@ -14,7 +14,7 @@ export class Entity {
     this.health = maxHp;
     this.baseDamage = baseDamage;
     this.hpRegen = hpRegen;
-    setInterval(() => {
+    var regenInterval = setInterval(() => {
       if (this.inCombat) {
         if (this.hpRegen.combat < 0) return;
         this.gainHealth(this.hpRegen.combat);
@@ -23,6 +23,11 @@ export class Entity {
         this.gainHealth(this.hpRegen.idle);
       }
     }, this.hpRegen.interval);
+    this._ondeath = new Event("entitydeath");
+    this.ondeath = new EventTarget();
+    this.ondeath.addEventListener("entitydeath", function (e) {
+      clearInterval(regenInterval);
+    });
   }
 
   /**
@@ -51,6 +56,7 @@ export class Entity {
     if (this.health <= 0) {
       console.debug(`{${this.name}} died.`);
       this.health = 0;
+      this.ondeath.dispatchEvent(this._ondeath);
     }
     return this.health;
   }
@@ -79,7 +85,7 @@ export class Entity {
       case "healthRegenBase":
         this.hpRegen.combat += effect.amount;
         this.hpRegen.idle += effect.amount;
-        setInterval(() => {
+        setTimeout(() => {
           this.hpRegen.combat -= effect.amount;
           this.hpRegen.idle -= effect.amount;
         }, effect.duration * 1000);
@@ -138,6 +144,13 @@ export class Entity {
       }
     }
     this.gainHealth(-1 * d);
+  }
+
+  /**
+   * Kill the entity.
+   */
+  kill() {
+    this.gainHealth(this.health * -1);
   }
 }
 
