@@ -13,6 +13,7 @@ export class Entity {
     this.maxHp = maxHp;
     this.health = maxHp;
     this.baseDamage = baseDamage;
+
     this.hpRegen = hpRegen;
     var regenInterval = setInterval(() => {
       if (this.inCombat) {
@@ -23,12 +24,20 @@ export class Entity {
         this.gainHealth(this.hpRegen.idle);
       }
     }, this.hpRegen.interval);
+
     this._ondeath = new Event("entitydeath");
     this.ondeath = new EventTarget();
     this.ondeath.addEventListener("entitydeath", function (e) {
       clearInterval(regenInterval);
     });
+
+    Entity.allEntities.push(this);
   }
+
+  /**
+   * @type {Entity[]}
+   */
+  static allEntities = [];
 
   /**
    * @type {boolean}
