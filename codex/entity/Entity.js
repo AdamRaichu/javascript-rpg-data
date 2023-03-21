@@ -40,6 +40,17 @@ export class Entity {
   static allEntities = [];
 
   /**
+   * Run the `kill` function on all entities in {@link Entity.allEntities}.
+   * Also resets `allEntities` to an empty array.
+   */
+  static killAll() {
+    for (var i = 0; i < this.allEntities.length; i++) {
+      Entity.allEntities[i].kill();
+    }
+    Entity.allEntities = [];
+  }
+
+  /**
    * @type {boolean}
    */
   alive = true;
