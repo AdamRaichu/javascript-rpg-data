@@ -31,9 +31,26 @@ export class Entity {
   }
 
   /**
+   * @type {boolean}
+   */
+  alive = true;
+
+  /**
    * Whether the entity is in combat.
    */
   inCombat = false;
+  /**
+   * @type {number|undefined}
+   */
+  combatTimer = undefined;
+  updateCombatTimer() {
+    this.inCombat = true;
+    clearTimeout(this.combatTimer);
+    this.combatTimer = setTimeout(() => {
+      console.debug(`{${this.name}} is no longer in combat`);
+      this.inCombat = false;
+    }, 10000);
+  }
 
   /**
    * An array of Effects which apply to the entity. Update with {@link clearOldEffects}.
@@ -56,6 +73,7 @@ export class Entity {
     if (this.health <= 0) {
       console.debug(`{${this.name}} died.`);
       this.health = 0;
+      this.alive = false;
       this.ondeath.dispatchEvent(this._ondeath);
     }
     return this.health;
@@ -117,6 +135,7 @@ export class Entity {
    * @returns {number} The calculated damage amount, including effects.
    */
   dealDamage() {
+    this.updateCombatTimer();
     var d = this.baseDamage;
     this.clearOldEffects();
     var baseDamageModifiers = this.getActiveEffects("baseDamage");
@@ -136,6 +155,7 @@ export class Entity {
    * @param {takeDamageOptions} options Options controlling taking damage. See {@link takeDamageOptions}.
    */
   takeDamage(amount, options) {
+    this.updateCombatTimer();
     var d = amount;
     if (!options?.ignoreArmor) {
       var damageMultipliers = this.getActiveEffects("resistanceMultiplier");
