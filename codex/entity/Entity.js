@@ -49,6 +49,7 @@ export class Entity {
    * **FIXME: Important**: Calling this function with a lower value than the current cooldown will reset the cooldown to the lower (newly called) value.
    */
   updateCombatTimer(time = 10000) {
+    if (!this.inCombat) console.debug(`{${this.name}} entered combat.`);
     this.inCombat = true;
     clearTimeout(this.combatTimer);
     this.combatTimer = setTimeout(() => {
