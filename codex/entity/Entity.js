@@ -43,13 +43,18 @@ export class Entity {
    * @type {number|undefined}
    */
   combatTimer = undefined;
-  updateCombatTimer() {
+  /**
+   * Reset an entity's combat status to true and start a countdown.
+   * @param {number} time The time (in milliseconds) before the entity will no longer be considered "in combat".
+   * **FIXME: Important**: Calling this function with a lower value than the current cooldown will reset the cooldown to the lower (newly called) value.
+   */
+  updateCombatTimer(time = 10000) {
     this.inCombat = true;
     clearTimeout(this.combatTimer);
     this.combatTimer = setTimeout(() => {
       console.debug(`{${this.name}} is no longer in combat`);
       this.inCombat = false;
-    }, 10000);
+    }, time);
   }
 
   /**
