@@ -1,5 +1,3 @@
-import { Effect } from "../effect/Effect.js";
-
 export class Entity {
   /**
    *
@@ -214,4 +212,7 @@ export class Entity {
 /**
  * @typedef {Object} takeDamageOptions
  * @property {boolean} ignoreArmor Whether the damage calculation should ignore armor.
+ */
+/**
+ * @typedef {import("../effect/Effect").Effect} Effect
  */
